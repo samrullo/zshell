@@ -1,0 +1,6 @@
+#compdef quick_query
+typeset -A opt_args
+local context state line
+compadd $(print ~/.quick_query/*.rb(:t:r))
+
+return 0

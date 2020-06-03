@@ -1,0 +1,17 @@
+#compdef pkg_weaver.pl
+typeset -A opt_args
+local context state line ret=1
+_arguments -s -S \
+  "-client+[client]: :_blackrock_values clients" \
+  "-cnc_ifile+[cnc_ifile]: :$Bfm/clients/BLK/std/GreenPkg/ifiles/dream_cnc.ifile" \
+  "-compl_purpose+[compliance purpose]: :(COMPL UAT)" \
+  "-date+[date]: :_weekdays" \
+  "-package+[package]: :" \
+  "-pms_ifile+[pms_ifile]: :$Bfm/clients/BLK/std/GreenPkg/ifiles/dream_pms.ifile" \
+  "-prev_date+[prev_date]: :" \
+  "-purpose+[purpose]: :(GP)" \
+  "-run+[run]: :(init rerun)" \
+  "-ver+[ver]: :(PRODUCTION TEST)" \
+  && ret=0
+
+return $ret

@@ -1,0 +1,32 @@
+# --- tools/check_for_upgrade.sh	Mon Jul  9 05:16:15 2012
+# +++ tools/check_for_upgrade.sh	Mon Jul  9 05:40:48 2012
+# @@ -1,7 +1,7 @@
+# #!/bin/sh
+#  
+#  function _current_epoch() {
+# -  echo $(($(perl -e 'print int(time)') / 60 / 60 / 24))
+# +  echo $(($(date +%s) / 60 / 60 / 24))
+#  }
+#  
+#  function _update_zsh_update() {
+--- lib/git.zsh	Sun Jul  8 22:53:50 2012
++++ lib/git.zsh	Mon Jul  9 05:54:39 2012
+@@ -76,7 +76,7 @@
+   local INPUT_GIT_VERSION=$1;
+   local INSTALLED_GIT_VERSION
+   INPUT_GIT_VERSION=(${(s/./)INPUT_GIT_VERSION});
+-  INSTALLED_GIT_VERSION=($(git --version));
++  INSTALLED_GIT_VERSION=($(git --version 2>/dev/null));
+   INSTALLED_GIT_VERSION=(${(s/./)INSTALLED_GIT_VERSION[3]});
+ 
+   for i in {1..3}; do
+--- lib/termsupport.zsh	Sun Jul  8 22:51:33 2012
++++ lib/termsupport.zsh	Mon Jul  9 05:55:39 2012
+@@ -31,5 +31,5 @@
+ }
+ 
+ autoload -U add-zsh-hook
+-add-zsh-hook precmd  omz_termsupport_precmd
+-add-zsh-hook preexec omz_termsupport_preexec
++# add-zsh-hook precmd  omz_termsupport_precmd
++# add-zsh-hook preexec omz_termsupport_preexec

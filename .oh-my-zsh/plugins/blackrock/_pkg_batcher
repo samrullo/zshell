@@ -1,0 +1,98 @@
+#compdef pkg_batcher.pl
+
+# parameters {{{1
+_pkg_batcher_procs=(pms cnc)
+# }}}
+
+_pkg_batcher_runs () {
+  sed -n 's/^:\([A-Z]*\)$/\1/p' $1
+}
+
+_pkg_batcher_sects () {
+  sed -n 's/[A-Z0-9:]*:\([A-Z]\{1,\}\) *\|.*$/\1/p' $1 | sort -u
+}
+
+typeset -A opt_args
+local context state line
+local client gp_dir pcl pcl_path pkg
+_arguments -s -S \
+  "-a+[package date]: :_weekdays" \
+  '-client+[client]: :_blackrock_values clients' \
+  "-dryRun[dry run]" \
+  "-gp[send messages to GP monitors]" \
+  "-help[show help]" \
+  "-log+[log text]: :" \
+  "-pcl+[.pcl file]: :_blackrock_values pcls" \
+  "-proc+[procedure types]: :->proc" \
+  "-pkg+[package name]: :->package" \
+  "-rpts_dir[reports directory]: :_files -/" \
+  "-run+[run type]: :->run" \
+  "-sect+[run section]: :->sect" \
+  && return 0
+
+(( $+opt_args[-client] )) && client=$opt_args[-client]
+(( $+opt_args[-pkg] )) && pkg=$opt_args[-pkg]
+
+[[ -n $client ]] && gp_dir=$Bfm/clients/$client/std/GreenPkg
+
+if (( $+opt_args[-pcl] ))
+then
+  pcl=$opt_args[-pcl]
+  case $pcl in
+    *\\:\\:*)
+      local pcl_client pcl_relative
+      pcl_client=${pcl/\\:\\:*/}
+      pcl_relative=${pcl/*\\:\\:/}
+      pcl_path=$Bfm/clients/$pcl_client/std/GreenPkg/$pcl_relative
+      ;;
+    *)
+      pcl_path=$opt_args[-pcl]
+      ;;
+  esac
+fi
+
+case $state in
+  package)
+    _files -W $gp_dir -g '*.pcl(:r)' && return 0
+    ;;
+  pcl)
+    if [[ -n $client ]]
+    then
+      if [[ -n $pkg ]]
+      then
+        _values ".pcl file" "$client\:\:$pkg.pcl" && return 0
+      else
+        _values ".pcl file" "$client\:\:" && return 0
+      fi
+    else
+      _normal && return 0
+    fi
+    ;;
+  proc)
+    _values -S ',' "procedure types" \
+      $_pkg_batcher_procs \
+      && ret=0
+    ;;
+  run)
+    if [[ -n $pcl_path ]]
+    then
+      _values -S ',' "run type" \
+        $(_pkg_batcher_runs $pcl_path) \
+        && return 0
+    else
+      _normal && return 0
+    fi
+    ;;
+  sect)
+    if [[ -n $pcl_path ]]
+    then
+      _values -S ',' "run sections" \
+        $(_pkg_batcher_sects $pcl_path) \
+        && return 0
+    else
+      _normal && return 0
+    fi
+    ;;
+esac
+
+return 1

@@ -1,0 +1,20 @@
+#compdef BondCalc
+typeset -A opt_args
+local context state line ret=1
+_arguments -s -S \
+  "-a+[as of date]: :"\
+  "-c+[security identifier]: :_weekdays" \
+  "-calc+[calculation]: :(OAS OAV PX YLD YLDPSA)" \
+  "-edt+[economy date]: :_weekdays" \
+  "(-hdt)-er_days+[number of horizon days]: :" \
+  "(-er_days)-hdt+[horizon date]: :_weekdays" \
+  "-oas+[spread]: :" \
+  "-scenario+[scenario name]: :(forward nominal)" \
+  "-sdt+[settlement date]: :_weekdays" \
+  "-shock_type+[curve shock type]: :(fwd par spot)" \
+  "-spdb+[purpose, source and rungroup for spdb]: :" \
+  "-px+[security price]: :" \
+  {-y,-yld}"+[yield]: :" \
+  && ret=0
+
+return $ret

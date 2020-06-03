@@ -1,0 +1,71 @@
+#compdef cnc cnca
+typeset -A opt_args
+local context state line ret=1
+_arguments -s -S \
+  "1: :_blackrock_values funds" \
+  "2: :_weekdays" \
+  "-W+[report tag]: :" \
+  "-P[<program-param>]" \
+  "-2+[auxiliary date]: :_weekdays" \
+  "-I[interactive mode]" \
+  "-base_ccy+[base currency for portgroup aggregation]: :" \
+  "-bench_index[index into benchmark vector to use for choosing benchmark]" \
+  "-bench_type+[benchmark type]: :" \
+  "-binary_dir+[binary directory]: :_files -/" \
+  "-cal+[calendar]: :_blackrock_values calendars" \
+  "-ccf[run in CCF mode]" \
+  "-ccf[use Common Compute Farm]" \
+  "-cols_from_db[load column definitions and code from DB]" \
+  "-debug+[set debug switches]: :" \
+  "-dxs_block+[DxS block]: :" \
+  "(-no_bench_exp)-enable_pg_bench[enable expansion of portgroup benchmarks]" \
+  "-exp_comp_as_fund[Expand Composite Index when running it as a fund]" \
+  "-filter+[filter by sector]: :" \
+  "-filter_port+[filter by portfolio]: :" \
+  "-fund_htlink_dir+[directory for fund hyperlinks]: :_files -/" \
+  "-fund_html_rpt+[report to use for fund hyperlink]: :" \
+  "-fund_level+[max level in portgroup expansion]: :" \
+  "-fund_tol[lookback tolerance for fund sector risk loading (neg=none)]" \
+  "-gp_exp_alias+[alias for the gp report]: :" \
+  "-gp_package+[package used for GPMonitor]: :_blackrock_values packages" \
+  "-hdr_ccys+[list of ccys for econ headr]: :" \
+  "-hdr_tag+[econ header report tag to use for rate headers]: :" \
+  "-ifile+[script file]: :_files *.ifile" \
+  "-index_htlink_dir+[directory for index hyperlinks]: :_files -/" \
+  "-index_html_rpt+[report to use for index hyperlink]: :" \
+  "-index_tol[lookback tolerance for index sector risk loading (neg=none)]" \
+  "-loadFCN[load data from fund_calc_nav]" \
+  "-loadTCA[load transaction cost analysis]" \
+  "-loadTRR[load total rate of returns]" \
+  "-load_extern_entities+[enable loading of extern_entities data]" \
+  "-load_pg_risk[attempt to load risk values for the port group]" \
+  "-load_port_risk[load data from risk_core]" \
+  "-max_depth+[depth in sector tree]: :" \
+  "-mid_level_funds[show mid-level funds in portgroup]" \
+  "-model_map+[VaR model map]: :" \
+  "(-enable_pg_bench)-no_bench_exp[disable expansion of composite benchmarks]" \
+  "-no_exp_mngd_pg[don't expand managed port groups]" \
+  "-no_pg_html[Suppress fund_html_rpt setting for portgroups]" \
+  "-org_code+[organization code]: :" \
+  "-package+[PMS package for fund ordering]: :_blackrock_values packages" \
+  "-pesl_dir+[PESL directory]: :_files -/" \
+  "-priority+[priority]: :" \
+  "-reportDir+[report write directory]: :_files -/" \
+  "-retro+[activate old code]: :" \
+  "-risk_bench_order+[bench_order to use against benchmarks table]: :" \
+  "-risk_free_index[Risk-free index for the TRR statistics]" \
+  "-rpt_version+[version of report to load]: :(PRODUCTION TEST)" \
+  "-show_ticker[show ticker]" \
+  "-skip_benchmarks+[skip loading data for benchmark funds]: :" \
+  "-suppress_cash_no_short[suppress display of no_short line]" \
+  "-swap_fund_with_bench[Swap leaf level funds with their benchmarks]" \
+  "-test+[activates test code]: :" \
+  "-test_nlaf[write unzipped XML files]" \
+  "-to_deno+[denominator to calculate portfolio turnover]: :" \
+  "-use_brk_title[include sector breakdown title in report header]" \
+  "-var_purpose[purpose for retrieving VAR exposures]" \
+  "-var_type+[type of VaR to use]: :(MKT REG WKM WKR WKY WKS WKL WKC APT)" \
+  "-write_compl_log[write compliance log messages]" \
+  && ret=0
+
+return $ret

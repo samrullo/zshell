@@ -1,0 +1,14 @@
+#compdef gpa_flush.pl
+typeset -A opt_args
+local context state line ret=1
+_arguments -s -S \
+ "-1+[set the T-1 run date]: :_weekdays" \
+ "-c+[client name]: :_blackrock_values clients" \
+ "-f[archive earlier data and roll exceptions]" \
+ "-h[show help]" \
+ "(-c)-p+[package name]: :_blackrock_values packages" \
+ "-r[do not roll any exceptions]" \
+ "-w[what if mode]" \
+ && ret=0
+
+return $ret

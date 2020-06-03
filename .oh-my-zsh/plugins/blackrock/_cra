@@ -1,0 +1,16 @@
+#compdef cra
+typeset -A opt_args
+local context state line ret=1
+_arguments -s -S \
+  "(-port)-cusip+[security identifier]: :" \
+  "-date+[date]: :_weekdays" \
+  "-help[show help]" \
+  "-mode+[mode]: :(details all)" \
+  "-ph+[price hierarchy]: :" \
+  "(-cusip)-port+[portfolio or group]: :" \
+  "-purpose+[save purpose]: :" \
+  "-rh+[risk hierarchy]: :" \
+  "-save[save to database]" \
+  && ret=0
+
+return $ret

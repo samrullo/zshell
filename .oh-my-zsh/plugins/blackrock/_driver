@@ -1,0 +1,13 @@
+#compdef driver.pl
+typeset -A opt_args
+local context state line ret=1
+_arguments -s -S \
+  "-adt+[as of date]: :_weekdays" \
+  "-cmd+[command to execute]: :" \
+  "-dir+[directory]: :_files -/" \
+  $_port_group_or_fund \
+  "-mno+[number of machines]: :" \
+  "-tag+[tag for logging]: :" \
+  && return 0
+
+return $ret 

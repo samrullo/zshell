@@ -1,0 +1,49 @@
+#compdef praada_nav.pl
+typeset -A opt_args
+local context state line ret=1
+_arguments -s -S \
+  "-W+[report tag]: :" \
+  "-attr_wt+[attribution weight schema]: :(DUR MV SDUR)" \
+  "-bench+[benchmark]: :_blackrock_values funds" \
+  "-bench_type+[benchmark type]: :(PERFORM RISK)" \
+  "-calendar+[package calendar]: :_blackrock_values calendars" \
+  "-debug[debug mode]" \
+  "-end_date+[end date]: :_weekdays" \
+  "-find_nav+[starting NAV purpose code]: :" \
+  "-force_nosave[turn off all save and store switches]" \
+  "-fund_html_rpt+[fund hyperlink]: :" \
+  "-gp[send exceptions to monitors]" \
+  "-gpsettings+[use GP settings]: :(GP)" \
+  "-help[show help]" \
+  "-hier+[price hierarchy]: :" \
+  "-mode+[P&L mode]: :(ACTIVE BHB HYBRID PNL RELATIVE)" \
+  "-no_cash_equiv[turn off cash equivalent bucketing]" \
+  "-pkg+[Package for GPA messaging (default: )]: :" \
+  "-pkg_date+[Package date or run date for GPMonitor (default: 06/16/2013)]: :" \
+  "-pnl_type+[P&L type]: :(CUSIP SECTOR STRATEGY STRATEGY_CUSIP)" \
+  "-port+[portfolio]: :_blackrock_values funds" \
+  "-return_hier+[security returns hierarchy for equities]: :" \
+  "-rh+[risk hierarchy]: :" \
+  "-rptdir+[report write directory]: :_files -/" \
+  "-rt+[risk tolerance]: :" \
+  "-run_category+[subcategory for looking up program parameters]: :(BINARY DAILY)" \
+  "-save[save P&L data into fund_ledger]" \
+  "-show_bench_pos[turn on reporting for all benchmark positions (default: OFF)]" \
+  "-show_residual+[turn on residual reporting]: :(ALL BENCH NONE PORT)" \
+  "-source+[source for saving into fund_ledger]: :(PRA)" \
+  "-start_date+[start date]: :_weekdays" \
+  "-store_fcn[save P&L into fund_calc_nav with source PRA]" \
+  "-store_nav[save NAV into port_hist with datatype CALC_NAV]" \
+  "-store_pra[save portfolio level daily returns into portfolio_returns]" \
+  "-store_ra[save attribution into active_ret_att with method PNL]" \
+  "-store_trr[save TRR into trr with purpose PRA]" \
+  "-tol+[price tolerance]: :" \
+  && ret=0
+
+case $state in
+  cmd)
+    _pms && ret=0
+    ;;
+esac
+
+return $ret

@@ -1,0 +1,22 @@
+#compdef grs_batcher.pl
+typeset -A opt_args
+local context state line ret=1
+_arguments -s -S \
+  "-asof+[as of date]: :_weekdays" \
+  "-updateDB[update database]" \
+  "(-breakdown_list)-grBreakdowns[use gr_breakdowns decode]" \
+  "(-grBreakdowns)-breakdown_list+[comma delimited list of breakdowns]: :" \
+  {-dryrun,-whatIf}"[what if mode]" \
+  "-genStat[add timings to genStat table]" \
+  "-usePmsPositionData[use T-1 pms_position_data to get cusips instead of positions]" \
+  "-display[displays debug outputs in logs]" \
+  "-mno+[number of machines]: :" \
+  "-addOn+[switches to load in pms]: :" \
+  "-file+[cusip file]: :_files" \
+  "-port_group+[portfolio group]: :_blackrock_values funds" \
+  "-missing_only[run only on cusips which are missing data]" \
+  "-pkg+[package name]: :_blackrock_values packages" \
+  "-h[show help]" \
+  && ret=0
+
+return $ret

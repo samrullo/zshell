@@ -1,0 +1,212 @@
+#compdef pms pmsa
+
+# parameters {{{1
+_pms_aggregation_parameters=(
+  "B[disaggregate portfolio and benchmark position]"
+  "c[disaggregate by mortgage cusip; prevent merging of lots that make up box positions]"
+  "F[force FIFO for trades]"
+  "f[no FIFO for trades]"
+  "M[aggregate by pricing_cusip on position load]"
+  "n[do not aggregate]"
+  "P[group by long and short position]"
+  "p[group by fund]"
+  "r[aggregate restricted lots together]"
+  "s[group trade lots by strategy and then by cusip]"
+  "T[disaggregate lots by trade number]"
+  "t[disaggregate lots by trade number except mortgage pools]"
+  "u[aggregate settled and unsettled trades]"
+  "U[disaggregate by trade UDF when -tradeUDF is set]"
+  "V[aggregates across book reasons]"
+)
+
+_pms_load_parameters=(
+  "(a)A[do not load duration analytics]"
+  "(A)a[do not load duration analytics]"
+  "(b)B[load book values]"
+  "(B)b[load book values]"
+  "C[load collateral data]"
+  "c[load CMBS data]"
+  "D[do not load parameters (duration, convexity, etc.)]"
+  "E[load expected total return info]"
+  "(f)F[do not load factors]"
+  "(F)f[do not load factors]"
+  "(i)I[load benchmark data]"
+  "(I)i[load benchmark data]"
+  "K[do not fix KRDs]"
+  "k[fix KRDs if bad and then update database]"
+  "(m)M[do not load mortgage information]"
+  "(M)m[do not load mortgage information]"
+  "N[load security notes]"
+  "(p)P[load prepayment history]"
+  "(P)p[load prepayment history]"
+  "Q[do not load trades]"
+  "q[save trades]"
+  "R[do not load ratings]"
+  "r[load return attribution data]"
+  "S[load risk scenario data]"
+  "T[load total return data]"
+  "t[load taxable income data]"
+  "(w)W[load WAL data]"
+  "(W)w[load WAL data]"
+  "X[do not load prices]"
+  "x[load previous prices]"
+)
+
+_pms_portfolio_parameters=(
+  "(c)C[load previous prices]"
+  "(C)c[load previous prices]"
+  "(d)D[do not load parameters (duration, convexity, etc.)]"
+  "(D)d[do not load parameters (duration, convexity, etc.)]"
+  "(e)E[estimate NAVs]"
+  "(E)e[estimate NAVs]"
+  "(f)F[do not load mortgage data]"
+  "(F)f[do not load mortgage data]"
+  "(m)M[behave as if NAV equals market value]"
+  "(M)m[behave as if NAV equals market value]"
+  "(t)T[do not load trepp]"
+  "(T)t[do not load trepp]"
+  "(i U u)I[write updated parameters to the database]"
+  "(I U u)i[write updated parameters to the database]"
+  "(I i u)U[write updated parameters to the database]"
+  "(I i U)u[write updated parameters to the database]"
+  "(x)X[do not load prices]"
+  "(X)x[do not load prices]"
+  "(y)Y[load yield curves]"
+  "(Y)y[load yield curves]"
+)
+
+_pms_report_parameters=(
+  "b[print book value instead of market value for block reports]"
+  "h[write in HTML format]"
+  "l[write in PostScript format]"
+  "o[print to the terminal]"
+  "p[print all subheadings]"
+  "r[do not print securities that fail to bucket]"
+  "R[subtotal government securities as equivalent to AAA]"
+  "s[print summary information only]"
+  "S[print summary information only with paragraph subtitles in description column]"
+  "t[write in flat text format]"
+  "x[write in Excel-readable format]"
+)
+
+_pms_security_types=(
+  "A[ARMs]"
+  "a[asset-backed securities]"
+  "b[commercial MBS]"
+  "C[caps]"
+  "c[CMOs]"
+  "E[equities]"
+  "f[futures]"
+  "g[generic and specified spools]"
+  "h[commercial paper and discount notes]"
+  "I[corporate bonds]"
+  "i[IOs]"
+  "j[projects]"
+  "K[Canadian securities]"
+  "M[mortgage swaps]"
+  "m[mortgages]"
+  "N[Canadian mortgages]"
+  "o[options]"
+  "p[POs]"
+  "R[repos]"
+  "r[residuals]"
+  "s[swaps]"
+  "T[MBS TBAs]"
+  "t[Treasury bonds]"
+  "U[taxable municipal bonds]"
+  "u[municipal bonds]"
+  "z[commercial MBS]"
+)
+# }}}
+
+typeset -A opt_args
+local context state line ret=1
+_arguments -s -S \
+  "1: :_blackrock_values funds" \
+  "2: :_weekdays" \
+  "-D+[risk hierarchy]: :" \
+  "-L+[load parameters]: :->L" \
+  "-M+[price hierarchy]: :" \
+  "-R+[report parameters]: :->R" \
+  "-S+[security types to exclude]: :->security_type" \
+  "-W+[report tag]: :" \
+  "-a+[aggregation parameters]: :->a" \
+  "-cal+[calendar]: :_blackrock_values calendars" \
+  "-ccf[use Common Compute Farm]" \
+  "(-2)-comparDate[price comparison date]: :_weekdays" \
+  "(-comparDate)-2[price comparison date]: :_weekdays" \
+  "-complBin[write compliance binary]" \
+  "-composite[run fund as a composite benchmark]" \
+  "-d+[risk tolerance days]: :" \
+  "-exp_hi+[exposure hierarchy]: :" \
+  "-filter+[set a security filter]: :" \
+  "-gp_alias+[report name for gp reports]: :" \
+  "-gpa[send exceptions to GP monitors]" \
+  "-gpsettings+[use GP settings]: :(GP\:DAILY\:i GP\:DAILY GP\:BINARY)" \
+  "-ignorePublish[ignore published state when writing to database]" \
+  "(-I)-interactive[interactive]" \
+  "(-interactive)-I[interactive]" \
+  "-load_comm_cash[load committed cash]" \
+  "(-xp -x -loadProdBinary)-loadBinary+[binary read directory]: :_files -/" \
+  "(-xp -loadBinary -loadProdBinary)-x+[binary read directory]: :_files -/" \
+  "(-x -x -loadBinary)-loadProdBinary[read binary from production directory]" \
+  "(-x -loadBinary -loadProdBinary)-xp[read binary from production directory]" \
+  "-loadProdGroups[load groups from production binary]" \
+  "-m+[price tolerance days]: :" \
+  "(-1)-markDate[pricing date]: :_weekdays" \
+  "(-markDate)-1[pricing date]: :_weekdays" \
+  "(-3)-markDate3[another price comparison date]: :_weekdays" \
+  "(-markDate3)-3[another price comparison date]: :_weekdays" \
+  "-no_cash_equiv[turn off cash equivalent line printing]: :" \
+  "-p+[portfolio parameters]: :->p" \
+  "-pesl_dir+[PESL directory]: :_files -/" \
+  "-pkg+[package name]: :" \
+  "-reportDir+[write directory]: :" \
+  "-rpt_version+[version of report to load]: :(PRODUCTION TEST)" \
+  "-s+[security types to load]: :->security_type" \
+  "-showTicker[show BlackRock ticker as part of fund name in report title]" \
+  "-split+[split settings]: :->sec_group_sec_type" \
+  "-split_lt+[split settings for light lookthrough]: :->sec_group_sec_type" \
+  "-suppress+[suppress setting]: :(TOTALASSETS CASH CASHNOSHORT NETASSETS)" \
+  "-var_split+[split settings when saving exposures]: :->sec_group_sec_type" \
+  "(-Xp -X -writeProdBinary)-writeBinary+[binary write directory]: :_files -/" \
+  "(-Xp -writeBinary -writeProdBinary)-X+[binary write directory]: :_files -/" \
+  "(-X -X -writeBinary)-writeProdBinary[write binary to production directory]" \
+  "(-X -writeBinary -writeProdBinary)-Xp[write binary to production directory]" \
+  "-writeSectorMap+[write sector map to sector_data]: :" \
+  && ret=0
+
+case $state in
+  a)
+    _values -S '' "aggregation parameter" \
+      $_pms_aggregation_parameters \
+      && ret=0
+    ;;
+  L)
+    _values -S '' "load parameter" \
+      $_pms_load_parameters \
+      && ret=0
+    ;;
+  p)
+    _values -S '' "portfolio parameter" \
+      $_pms_portfolio_parameters \
+      && ret=0
+    ;;
+  R)
+    _values -S '' "report parameters" \
+      $_pms_report_parameters \
+      && ret=0
+    ;;
+  security_type)
+    _values -S '' "security type" \
+      $_pms_security_types \
+      && ret=0
+    ;;
+  sec_group_sec_type)
+    _values -S ',' "sec group sec type" \
+      $_sec_group_sec_types \
+      && ret=0
+    ;;
+esac
+
+return $ret

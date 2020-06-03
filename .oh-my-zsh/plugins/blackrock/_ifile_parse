@@ -1,0 +1,21 @@
+#compdef ifile_parse.pl
+typeset -A opt_args
+local context state line ret=1
+_arguments -s -S \
+  "(-w)-rpt+[report_tag]: :" \
+  "(-w)-bd+[breakdown]: :" \
+  "(-w)-depth+[breakdown depth]: :" \
+  "(-rpt -bd -depth)-w+[multiple reports separated by comma]: :" \
+  "(-ifile -type)-pms[use pms ifile]" \
+  "(-ifile -type)-cnc[use cnc ifile]" \
+  "(-pms -cnc)-ifile+[specify a different ifile path]: :_files -g '*.pcl'" \
+  "(-pms -cnc)-type+[specify ifile type]: :(pms cnc)" \
+  "(-dbg -misc -drill -filters)-def[check for all commands before a given report]" \
+  "(-def -misc -drill -filters)-dbg[check for duplicate reports]" \
+  "(-def -dbg -drill -filters)-misc[report all miscellaneous commands]" \
+  "(-def -dbg -misc -filters)-drill[match fund_html_rpt drilldowns in cnc mode]" \
+  "(-def -dbg -misc -drill)-filters[check all filters for accurate BQLs]" \
+  "-help[show help]" \
+  && ret=0
+
+return $ret

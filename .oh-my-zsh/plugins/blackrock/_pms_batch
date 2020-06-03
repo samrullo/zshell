@@ -1,0 +1,31 @@
+#compdef pms_batch.pl
+typeset -A opt_args
+local context state line ret=1
+_arguments -s -S \
+  "(-file -fund)-pg+[portfolio groups]: :_blackrock_values funds" \
+  "(-file -fund)-lev+[fund level]: :(ALL 1 2 3 4 5 6 7 8 9)" \
+  "(-pg -fund)-file+[flat file of funds]: :_files" \
+  "(-file -pg)-fund+[funds]: :_blackrock_values funds" \
+  "(-file -fund)-noleaf[ignore leafs]" \
+  "-a+[as of date]: :_weekdays" \
+  "-beast[larger jobs (8GB)]" \
+  "(-fund_only)-bench_only[only run benchmarks]" \
+  "(-file -fund)-benchmark_of_pg[run leaf level benchmarks]" \
+  "-cmd+[command]: :->cmd" \
+  "-dir+[report write directory]: :" \
+  "-dryRun[what if mode]" \
+  "(-bench_only)-fund_only[only run funds]" \
+  "-gp[send exceptions to GP monitors]" \
+  "-mno+[number of machines to run on]: :" \
+  "(-file -fund)-no_exp_mngd_pg[do not expand beyond managed portfolios]" \
+  "-pkg+[package name]: :_blackrock_values packages" \
+  "-tag+[run group tag]: :" \
+  && ret=0
+
+case $state in
+  cmd)
+    _pms && ret=0
+    ;;
+esac
+
+return $ret

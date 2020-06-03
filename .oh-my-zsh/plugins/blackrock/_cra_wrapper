@@ -1,0 +1,23 @@
+#compdef cra_wrapper.pl
+typeset -A opt_args
+local context state line ret=1
+_arguments -s -S \
+  "(-port_file -pg -entire_package -include_benchmarks)-file+[file of cusips]: :_files" \
+  "(-file -pg -entire_package -include_benchmarks)-port_file+[file of portfolio codes]: :_files" \
+  "(-port_file -file -entire_package)-pg+[port group]: :_blackrock_values funds" \
+  "(-port_file -file -pg -include_benchmarks)-entire_package[port group of package]" \
+  "(-file -port_file -entire_package)-include_benchmarks[run on benchmarks]" \
+  "-date+[analysis date]: :_weekdays" \
+  "-cal+[calendar for getting positions]: :" \
+  "-gp[send exceptions to GP monitors]" \
+  "-pkg+[package name]: :_blackrock_values packages" \
+  "-client+[client name]: :_blackrock_values clients" \
+  "-gpsettings+[use gpsettings for price and risk hierarchies]: :(GP\:DAILY GP\:DAILY\:i GP\:BINARY)" \
+  "-start_range+[starting date]: :_weekdays" \
+  "-tca[also kick off tca]" \
+  "-praada[also kick off praada]" \
+  "-dryRun[what if mode]" \
+  "-help[show help]" \
+  && ret=0
+
+return $ret

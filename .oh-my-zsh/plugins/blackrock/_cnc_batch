@@ -1,0 +1,25 @@
+#compdef cnc_batch.pl
+typeset -A opt_args
+local context state line ret=1
+_arguments -s -S \
+  "(-file -fund)-pg+[portfolio groups]: :_blackrock_values funds" \
+  "(-file -fund)-lev+[fund level]: :(ALL 1 2 3 4 5 6 7 8 9)" \
+  "(-pg -fund)-file+[flat file of funds]: :_files" \
+  "(-file -pg)-fund+[funds]: :_blackrock_values funds" \
+  "(-file -fund)-no_exp_mngd_pg[do not expand beyond managed portfolios]" \
+  "(-file -fund)-noleaf[ignore leafs]" \
+  "(-bench_only)-fund_only[only run funds]" \
+  "(-fund_only)-bench_only[only run benchmarks]" \
+  "-cmd+[command]: :" \
+  "-a+[as of date]: :_weekdays" \
+  "-dir+[report write directory]: :" \
+  "-tag+[run group tag]: :" \
+  "-dryRun[what if mode]" \
+  "-mno+[number of machines to run on]: :" \
+  "-beast[larger jobs (8GB)]" \
+  "(-file -fund)-benchmark_of_pg[run leaf level benchmarks]" \
+  "-gp[send exceptions to GP monitors]" \
+  "-pkg+[package name]: :_blackrock_values packages" \
+  && ret=0
+
+return $ret
